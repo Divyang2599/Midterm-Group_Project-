@@ -2,7 +2,7 @@
 
 **Course:** CST8911-300 Introduction to Cloud Computing  
 **College:** Algonquin College | Winter 2026  
-**Student:** Divyang Lodariya | Divyang Lodariya | Akash Patel | Diniz Martins | Harshdeep Puri | Mohannad Jaber
+**Student:** Divyang Lodariya | Akash Patel | Diniz Martins | Harshdeep Puri | Mohannad Jaber
   
 **Scenario:** Scenario 1: -  Serverless RESTful API with Azure Functions, Cosmos DB & Key Vault  
 
