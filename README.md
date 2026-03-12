@@ -49,6 +49,3 @@ enterprise security best practices. Zero hardcoded secrets.
 
 
 
-Once all files are uploaded, copy your repo URL:
-```
-https://github.com/YOUR-USERNAME/cst8911-midterm-azure
