@@ -9,7 +9,7 @@
 
 ## Architecture
 
-![Azure Serverless API Architecture](architecture_diagram (2).png)
+![Azure Serverless API Architecture](architecture_diagram.png)
 
 > **Zero hardcoded secrets** — Key Vault + Managed Identity used throughout. No connection strings in code.
 
