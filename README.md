@@ -1,51 +1,87 @@
-# CST8911 Midterm Project — Serverless Azure API
+# CST8911 Midterm — Azure Serverless API
 
 **Course:** CST8911-300 Introduction to Cloud Computing  
 **College:** Algonquin College | Winter 2026  
-**Student:** Divyang Lodariya  
+**Student:** Divyang Lodariya | Group 1  
+**Scenario:** Scenario 1 — Serverless RESTful API with Azure Functions, Cosmos DB & Key Vault  
 
-## Project Overview
-
-A secure, serverless RESTful API built on Microsoft Azure following 
-enterprise security best practices. Zero hardcoded secrets.
+---
 
 ## Architecture
-```
-[Azure VM] → SSH → [Developer]
-                        |
-                   curl (HTTPS)
-                        |
-              [Azure Function App]
-               /                \
-    [Azure Key Vault]    [Azure Cosmos DB]
-    (Connection String)   (MidtermDB/Items)
-```
+
+![Azure Serverless API Architecture](architecture_diagram.png)
+
+> **Zero hardcoded secrets** — Key Vault + Managed Identity used throughout. No connection strings in code.
+
+---
 
 ## Azure Services Used
 
-| Service | Purpose |
-|---------|---------|
-| Azure Function App | Serverless API hosting (Node.js 22 LTS) |
-| Azure Cosmos DB | NoSQL database (Serverless mode) |
-| Azure Key Vault | Secret management (connection string) |
-| Azure Virtual Machine | Testing hub (Ubuntu 24.04) |
+| Service | Resource Name | Purpose |
+|---------|--------------|---------|
+| Azure Function App | `midterm-func` | Serverless API — Node.js 22 LTS, Consumption plan |
+| Azure Cosmos DB | `midterm-cosmos` | NoSQL database — Serverless mode, MidtermDB/Items |
+| Azure Key Vault | `midterm-keyvault` | Secret management — stores Cosmos DB connection string |
+| Azure Virtual Machine | `midterm-vm` | Testing hub — Ubuntu 24.04, SSH + curl |
+
+---
 
 ## API Endpoints
 
-| Method | Route | Description |
-|--------|-------|-------------|
-| POST | /api/items | Create item |
-| GET | /api/items/{id} | Get item by ID |
-| DELETE | /api/items/{id} | Delete item |
-| GET | /api/items | List all items |
+| Method | Route | Description | Status Code |
+|--------|-------|-------------|-------------|
+| `POST` | `/api/items` | Create a new item | 201 Created |
+| `GET` | `/api/items/{id}` | Get item by ID | 200 OK |
+| `DELETE` | `/api/items/{id}` | Delete item by ID | 200 OK |
+| `GET` | `/api/items` | List all items | 200 OK |
+
+All endpoints require a Function Access Key: `?code=<key>`
+
+---
 
 ## Security Features
 
-- System-Assigned Managed Identity for passwordless Key Vault access
-- No hardcoded secrets anywhere in code
-- Function Access Keys for API authentication
-- Least-privilege RBAC roles throughout
-```
+- **Managed Identity** — System-Assigned identity on Function App for passwordless Key Vault access
+- **Zero hardcoded secrets** — Connection string stored in Key Vault, referenced at runtime via:
+  ```
+  @Microsoft.KeyVault(VaultName=midterm-keyvault;SecretName=CosmosConnectionString)
+  ```
+- **Least-privilege RBAC** — Managed Identity granted `Key Vault Secrets User` (read-only) role only
+- **Function Access Keys** — All API endpoints protected against unauthorized access
+- **Azure RBAC model** — Used instead of legacy Access Policies (Microsoft recommended)
 
+---
 
+## Files
 
+| File | Description |
+|------|-------------|
+| `index.js` | Main Function App code — HTTP trigger with POST, GET, DELETE handlers |
+| `function.json` | Function binding config — route, methods, auth level |
+| `package.json` | Node.js dependencies (`@azure/cosmos`) |
+| `README.md` | This file |
+
+---
+
+## How It Works
+
+1. Developer SSHs into `midterm-vm` (Azure VM, Ubuntu 24.04)
+2. `curl` commands sent from VM to Function App over HTTPS
+3. Function App uses **Managed Identity** to authenticate to Key Vault (no password)
+4. Key Vault returns the Cosmos DB connection string at runtime
+5. Function App connects to Cosmos DB and performs the operation
+6. JSON response returned to the VM
+
+---
+
+## Test Results (from VM via curl)
+
+| Test | Method | Result |
+|------|--------|--------|
+| Create item | POST `/api/items` | ✅ 201 — Item created successfully |
+| Read item | GET `/api/items/001` | ✅ 200 — Item data returned |
+| Delete item | DELETE `/api/items/001` | ✅ 200 — Item deleted successfully |
+
+---
+
+*Algonquin College — CST8911-300 Introduction to Cloud Computing — Winter 2026*
