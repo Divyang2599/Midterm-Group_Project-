@@ -1,0 +1,8 @@
+{
+  "name": "midterm-azure-api",
+  "version": "1.0.0",
+  "description": "Serverless RESTful API using Azure Functions and Cosmos DB",
+  "dependencies": {
+    "@azure/cosmos": "^4.0.0"
+  }
+}
