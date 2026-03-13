@@ -45,7 +45,7 @@ All endpoints require a Function Access Key.
 - **Managed Identity** - System-Assigned identity on Function App for passwordless Key Vault access
 - **Zero hardcoded secrets** - Connection string stored in Key Vault, referenced at runtime via:
   ```
-  @Microsoft.KeyVault(VaultName=midterm-keyvault;SecretName=CosmosConnectionString)
+
   ```
 - **Least-privilege RBAC** - Managed Identity granted `Key Vault Secrets User` (read-only) role only
 - **Function Access Keys** - All API endpoints are protected against unauthorized access
