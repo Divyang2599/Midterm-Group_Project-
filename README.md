@@ -84,4 +84,3 @@ All endpoints require a Function Access Key.
 
 ---
 
-* CST8911-300 Introduction to Cloud Computing *
