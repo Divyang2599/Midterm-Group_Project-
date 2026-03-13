@@ -1,4 +1,4 @@
-# CST8911 Midterm — Azure Serverless API
+# CST8911 Midterm - Azure Serverless API
 
 **Course:** CST8911-300 Introduction to Cloud Computing  
 **College:** Algonquin College | Winter 2026  
@@ -84,4 +84,4 @@ All endpoints require a Function Access Key.
 
 ---
 
-*Algonquin College — CST8911-300 Introduction to Cloud Computing — Winter 2026*
+* CST8911-300 Introduction to Cloud Computing *
